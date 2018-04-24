@@ -2,6 +2,7 @@
 
 int currentLine = 1;
 int currentColumn = 1;
+int aaa = 0;
 
 void  Errors::ErrorHandling::divZeroError(){
     cout<<"Error: division by zero !!!"<<endl;
