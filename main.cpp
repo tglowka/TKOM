@@ -6,6 +6,7 @@
 using  namespace  std;
 #include "parser.tab.h"
 extern FILE* yyin;
+extern int yylex();
 
 int  main(int  num_args , char** args) {
 if(num_args  != 2) {
@@ -19,5 +20,6 @@ if(file == NULL) {
 }
 yyin = file;
 yyparse ();
+
 fclose(file);
 }
