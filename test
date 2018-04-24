@@ -1,0 +1,5 @@
+begin
+number var a = 10;
+number var b = 20;
+show a+b*a - 100;
+end;

@@ -1,0 +1,6 @@
+1. Do zbudowania projektu nalezy uzyc kolejno polecen:
+    -make clean
+    -make
+2. Zostanie utworzony plik wynikowy uruchamiany w nastepujacy sposob:
+    ./lexer test    - to wywolanie pokaze prosta kolejnosc dzialan i poprawny wynik (kod w pliku "test"),
+    ./lexet test2   - to wyowalnie pokaze blad skladni po slowie "begin" w postani komunikatu.
