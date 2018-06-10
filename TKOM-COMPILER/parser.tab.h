@@ -83,12 +83,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 24 "parser.y" /* yacc.c:1909  */
+#line 26 "parser.y" /* yacc.c:1909  */
 
 double   double_val;
 string*  string_val;
-std::list<double>* list_double_val;
-std::list<string>* list_string_val;
+std::vector<double>* list_double_val;
+std::vector<string>* list_string_val;
 expression *exp_node;
 statement *statement_node;
 std::list<statement*> *statement_list;

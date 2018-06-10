@@ -1,7 +1,7 @@
 #include "ast.h"
 
 
-void pgm::evaluate() {
+void pgm::print() {
  std::cout<<"begin"<<std::endl;
  for (auto v : *pgm_list_statements){
         v->print();
@@ -38,7 +38,7 @@ void plus_node::print(){
 }
 
 void equal_node::print(){
-    std::cout<<"(";    left->print();    std::cout<<"==";    right->print();    std::cout<<")";
+    std::cout<<"("<<left_name<<"=="<<right_name<<")";
 }
 
 void and_node::print(){
@@ -50,7 +50,7 @@ void or_node::print(){
 }
 
 void not_equal_node::print(){
-    std::cout<<"(";    left->print();    std::cout<<"!=";    right->print();    std::cout<<")";
+    std::cout<<"("<<left_name<<"!="<<right_name<<")";
 }
 
 void minus_node::print(){
@@ -66,19 +66,19 @@ void divide_node::print(){
 }
 
 void greater_node::print(){
-    std::cout<<"(";    left->print();    std::cout<<">";    right->print();    std::cout<<")";
+    std::cout<<"("<<left_name<<">"<<right_name<<")";
 }
 
 void less_node::print(){
-    std::cout<<"(";    left->print();    std::cout<<"<";    right->print();    std::cout<<")";
+    std::cout<<"("<<left_name<<"<"<<right_name<<")";
 }
 
 void greater_equal_node::print(){
-    std::cout<<"(";    left->print();    std::cout<<">=";    right->print();    std::cout<<")";
+    std::cout<<"("<<left_name<<">="<<right_name<<")";
 }
 
 void less_equal_node::print(){
-    std::cout<<"(";    left->print();    std::cout<<"<=";    right->print();    std::cout<<")";
+    std::cout<<"("<<left_name<<"<="<<right_name<<")";
 }
 
 void sub_list::print(){
@@ -155,7 +155,7 @@ void if_statement::print(){
 
 void show_statement::print(){
     std::cout<<"show (";
-    node -> print();
+    std::cout<<variable_name;
     std::cout<<")";
 }
 

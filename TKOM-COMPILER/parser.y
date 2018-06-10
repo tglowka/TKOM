@@ -9,12 +9,14 @@
 #include  <string>
 #include  <map>
 #include <list>
+#include <vector>
 #include "ErrorHandling.h"
-//#include "parser.h"
 #include "ast.h"
+#include <memory>
 
 using  namespace  std;
 extern  int  yylex ();
+std::shared_ptr<pgm> root_ptr;
 pgm* root;
 %}
 
@@ -24,8 +26,8 @@ pgm* root;
 %union {
 double   double_val;
 string*  string_val;
-std::list<double>* list_double_val;
-std::list<string>* list_string_val;
+std::vector<double>* list_double_val;
+std::vector<string>* list_string_val;
 expression *exp_node;
 statement *statement_node;
 std::list<statement*> *statement_list;
@@ -56,7 +58,7 @@ pgm* prgrm;
 %left '*' '/'
 
 %%
-program: BEGINN NEWLINE stmnt_list END   NEWLINE {$$ = new pgm($3); root = $$;}
+program: BEGINN NEWLINE stmnt_list END   NEWLINE {$$ = new pgm($3); root_ptr = std::make_shared<pgm>(*$$);}
 
 
 stmnt_list: stmnt_list NEWLINE              { $$ = $1;}
@@ -71,7 +73,7 @@ statement: var_initialization
 |          if_statement
 
 
-print_statement: SHOW '(' expression ')'   {$$ = new show_statement($3);}
+print_statement: SHOW '(' VARIABLE ')'   {$$ = new show_statement($3);}
 
 foreach_statement: FOREACH VARIABLE IN VARIABLE LOOP NEWLINE stmnt_list END LOOP   {$$ = new foreach_statement($2, $4, $7);}
 
@@ -96,12 +98,12 @@ expression: DOUBLE                               { $$ = new double_value($1);}
 |           STRING_LISTDEF                       { $$ = new string_list_value($1);}
 |           DOUBLE_LISTDEF                       { $$ = new double_list_value($1);}
 |           VARIABLE                             { $$ = new id_node($1);}
-|           expression NOTEQUAL expression { $$ = new not_equal_node($1,$3);}
-|           expression EQUAL    expression { $$ = new equal_node ($1,$3);}
-|           expression GEQUAL   expression { $$ = new greater_equal_node ($1, $3);}
-|           expression LEQUAL   expression { $$ = new less_equal_node ($1, $3);}
-|           expression '<'      expression { $$ = new less_node ($1, $3);}
-|           expression '>'      expression { $$ = new greater_node ($1, $3);}
+|           VARIABLE NOTEQUAL VARIABLE { $$ = new not_equal_node($1,$3);}
+|           VARIABLE EQUAL    VARIABLE { $$ = new equal_node ($1,$3);}
+|           VARIABLE GEQUAL   VARIABLE { $$ = new greater_equal_node ($1, $3);}
+|           VARIABLE LEQUAL   VARIABLE { $$ = new less_equal_node ($1, $3);}
+|           VARIABLE '<'      VARIABLE { $$ = new less_node ($1, $3);}
+|           VARIABLE '>'      VARIABLE { $$ = new greater_node ($1, $3);}
 |           expression '*'      expression { $$ = new times_node ($1, $3);}
 |           expression '/'      expression { $$ = new divide_node ($1, $3);}
 |           expression '+'      expression { $$ = new plus_node ($1, $3);}

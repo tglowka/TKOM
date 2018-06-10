@@ -5,27 +5,29 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include "ast.h"
+#include <memory>
 #include <cstdlib>
 using namespace std;
 #include "parser.tab.h"
 extern FILE* yyin;
 extern int yylex();
-extern pgm* root;
 
 class ParserStructure{
 public:
-    list<string> variables;
-    map <string ,double > var_double;
-    map <string ,list<double> > var_list_double;
-    map <string ,list<string> > var_list_string;
 
-public:
-
-    static list<double>* parseListDefinitionNumber(char *);
-    static list<string>* parseListDefinitionString(char *);
+    static vector<double>* parseListDefinitionNumber(char *);
+    static vector<string>* parseListDefinitionString(char *);
 
     bool addVariable(string varName);
 };
+void printStringList(vector<string> vec, string variable_name);
+void printDoubleList(vector<double> vec, string variable_name);
+void printDouble(double value, string variable_name);
+
+bool existDoubleVarialbe(string variable_name, map <string ,double > map);
+bool existDoubleListVarialbe(string variable_name, map <string ,vector <double> > map);
+bool existStringListVarialbe(string variable_name, map <string ,vector <string> > map);
 
 void readFromString(string data);
 

@@ -19,6 +19,26 @@ void yyerror(char* s){
     exit(1);
 }
 
+void Errors::ErrorHandling::lowerBoundIncorrect(int value){
+    cout<<"Incorrect lower bound: "<<value<<endl;
+    exit(1);
+}
+
+void Errors::ErrorHandling::lowerBoundGreaterThanUpperBound(){
+    cout<<"Lower bound is greater than upper"<<endl;
+    exit(1);
+}
+
+void Errors::ErrorHandling::upperBoundIncorrect(int value){
+    cout<<"Incorrect upper bound: "<<value<<endl;
+    exit(1);
+}
+
+void Errors::ErrorHandling::incorrectLeftExpressionComparison(){
+    cout<<"Left expression has to be scalar"<<endl;
+    exit(1);
+}
+
 void  Errors::ErrorHandling::updateColumn(char* s){
     string tmp(s);
     currentColumn += tmp.length();

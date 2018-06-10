@@ -7,6 +7,8 @@
 using  namespace  std;
 #include "parser.tab.h"
 #include "parser.h"
+extern pgm* root;
+extern std::shared_ptr<pgm> root_ptr;
 extern int yy_scan_string(const char *);
 extern FILE* yyin;
 
@@ -28,7 +30,7 @@ int  main(int  num_args , char** args) {
         yyin = fp;
         freopen("output.txt","w",stdout);
         yyparse ();
-        root->evaluate();
+        root_ptr->evaluate();
         fclose(fp);
     }else{
         cout<<"Error, wrong arguments"<<endl;
@@ -39,5 +41,5 @@ int  main(int  num_args , char** args) {
 void readFromString(string data){
     yy_scan_string(data.c_str());
     yyparse ();
-    root->evaluate();
+    root_ptr->print();
 }

@@ -1,10 +1,11 @@
 #include "parser.h"
+
 extern int yy_scan_string(const char *);
 
 
 
-list<double>* ParserStructure::parseListDefinitionNumber(char* text){
-    list<double> *myList = new list<double>();
+vector<double>* ParserStructure::parseListDefinitionNumber(char* text){
+    vector<double> *myList = new vector<double>();
     string tmp;
     double listValue;
     string data(text);
@@ -21,8 +22,8 @@ list<double>* ParserStructure::parseListDefinitionNumber(char* text){
     return myList;
 }
 
-list<string>* ParserStructure::parseListDefinitionString(char* text){
-    list<string> *myList = new list<string>();
+vector<string>* ParserStructure::parseListDefinitionString(char* text){
+    vector<string> *myList = new vector<string>();
     string tmp;
     string listValue;
     string data(text);
@@ -44,4 +45,35 @@ list<string>* ParserStructure::parseListDefinitionString(char* text){
         }
     }
     return myList;
+}
+
+void printStringList(vector<string> vec, string variable_name){
+    std::cout<<variable_name<<": ";
+    for (std::vector<string>::const_iterator i = vec.begin(); i != vec.end(); ++i)
+    std::cout << '\'' << *i << "\',";
+    std::cout<<std::endl;
+}
+
+void printDoubleList(vector<double> vec,  string variable_name){
+    std::cout<<variable_name<<": ";
+    for (std::vector<double>::const_iterator i = vec.begin(); i != vec.end(); ++i)
+    std::cout << *i << " ,";
+    std::cout<<std::endl;
+}
+
+void printDouble(double value, string variable_name){
+    std::cout<<variable_name<<": "<<value<<std::endl;
+}
+
+bool existDoubleVarialbe(string variable_name, map<string, double> var_map){
+    map<string,double>::const_iterator it_number = var_map.find(variable_name);
+    return it_number != var_map.end();
+}
+bool existDoubleListVarialbe(string variable_name, map<string, vector <double> > var_map){
+    map<string,vector<double> >::const_iterator it_number_list = var_map.find(variable_name);
+    return it_number_list != var_map.end();
+}
+bool existStringListVarialbe(string variable_name, map<string, vector <string> > var_map){
+    map<string,vector<string> >::const_iterator it_string_list = var_map.find(variable_name);
+    return it_string_list != var_map.end();
 }

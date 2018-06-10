@@ -18,8 +18,8 @@ string getFileContent(){
 BOOST_AUTO_TEST_SUITE( list_value_tests )
     BOOST_AUTO_TEST_CASE( test_number_list_value )
     {
-         list<double>* myList = ParserStructure::parseListDefinitionNumber("{1.5,2.1,3.0}");
-         list<double>* destList = new list<double>();
+         vector<double>* myList = ParserStructure::parseListDefinitionNumber("{1.5,2.1,3.0}");
+         vector<double>* destList = new vector<double>();
          destList->push_back(1.5);
          destList->push_back(2.1);
          destList->push_back(3.0);
@@ -28,8 +28,8 @@ BOOST_AUTO_TEST_SUITE( list_value_tests )
 
     BOOST_AUTO_TEST_CASE( test_string_list_value )
     {
-         list<string>* myList = ParserStructure::parseListDefinitionString("{\'jeden\',\'dwa\',\'trzy\'}");
-         list<string>* destList = new list<string>();
+         vector<string>* myList = ParserStructure::parseListDefinitionString("{\'jeden\',\'dwa\',\'trzy\'}");
+         vector<string>* destList = new vector<string>();
          destList->push_back("jeden");
          destList->push_back("dwa");
          destList->push_back("trzy");
@@ -204,38 +204,38 @@ BOOST_AUTO_TEST_CASE( test_scalar_precedence_brackets )
 */
 BOOST_AUTO_TEST_CASE( test_relational_precedence_less )
 {
-     system("../lexer \"begin\" \"aa = 5 + 10 / 15 < 10 * 10\" \"end\"");
-     BOOST_TEST( getFileContent().c_str() == "begin\naa=((5+(10/15))<(10*10))\nend\n");
+     system("../lexer \"begin\" \"if aa > bb then\" \"aa = ww\" \"end if\" \"end\"");
+     BOOST_TEST( getFileContent().c_str() == "begin\nif (aa>bb)then\naa=ww\nend if\nend\n");
 }
 
 BOOST_AUTO_TEST_CASE( test_relational_precedence_greater )
 {
-     system("../lexer \"begin\" \"aa = 5 + 10 / 15 > 10 * 10\" \"end\"");
-     BOOST_TEST( getFileContent().c_str() == "begin\naa=((5+(10/15))>(10*10))\nend\n");
+     system("../lexer \"begin\" \"if aa < bb then\" \"aa = ww\" \"end if\" \"end\"");
+     BOOST_TEST( getFileContent().c_str() == "begin\nif (aa<bb)then\naa=ww\nend if\nend\n");
 }
 
 BOOST_AUTO_TEST_CASE( test_relational_precedence_equal )
 {
-     system("../lexer \"begin\" \"aa = 5 + 10 / 15 == 10 * 10\" \"end\"");
-     BOOST_TEST( getFileContent().c_str() == "begin\naa=((5+(10/15))==(10*10))\nend\n");
+     system("../lexer \"begin\" \"if aa == bb then\" \"aa = ww\" \"end if\" \"end\"");
+     BOOST_TEST( getFileContent().c_str() == "begin\nif (aa==bb)then\naa=ww\nend if\nend\n");
 }
 
 BOOST_AUTO_TEST_CASE( test_relational_precedence_nequal )
 {
-     system("../lexer \"begin\" \"aa = 5 + 10 / 15 != 10 * 10\" \"end\"");
-     BOOST_TEST( getFileContent().c_str() == "begin\naa=((5+(10/15))!=(10*10))\nend\n");
+     system("../lexer \"begin\" \"if aa >= bb then\" \"aa = ww\" \"end if\" \"end\"");
+     BOOST_TEST( getFileContent().c_str() == "begin\nif (aa>=bb)then\naa=ww\nend if\nend\n");
 }
 
 BOOST_AUTO_TEST_CASE( test_relational_precedence_lequal )
 {
-     system("../lexer \"begin\" \"aa = 5 + 10 / 15 <= 10 * 10\" \"end\"");
-     BOOST_TEST( getFileContent().c_str() == "begin\naa=((5+(10/15))<=(10*10))\nend\n");
+     system("../lexer \"begin\" \"if aa <= bb then\" \"aa = ww\" \"end if\" \"end\"");
+     BOOST_TEST( getFileContent().c_str() == "begin\nif (aa<=bb)then\naa=ww\nend if\nend\n");
 }
 
 BOOST_AUTO_TEST_CASE( test_relational_precedence_gequal )
 {
-     system("../lexer \"begin\" \"aa = 5 + 10 / 15 >= 10 * 10\" \"end\"");
-     BOOST_TEST( getFileContent().c_str() == "begin\naa=((5+(10/15))>=(10*10))\nend\n");
+     system("../lexer \"begin\" \"if aa != bb then\" \"aa = ww\" \"end if\" \"end\"");
+     BOOST_TEST( getFileContent().c_str() == "begin\nif (aa!=bb)then\naa=ww\nend if\nend\n");
 }
 /*
 ==============================================================================
@@ -244,8 +244,8 @@ BOOST_AUTO_TEST_CASE( test_relational_precedence_gequal )
 */
 BOOST_AUTO_TEST_CASE( test_if_statement )
 {
-     system("../lexer \"begin\" \"if aa > 10 or bb < 10 and cc == 10 then\" \"aa = 20\" \"end if\" \"end\"");
-     BOOST_TEST( getFileContent().c_str() == "begin\nif ((aa>10) OR ((bb<10) AND (cc==10)))then\naa=20\nend if\nend\n");
+     system("../lexer \"begin\" \"if aa > bb or bb < dd and cc == ee then\" \"aa = ww\" \"end if\" \"end\"");
+     BOOST_TEST( getFileContent().c_str() == "begin\nif ((aa>bb) OR ((bb<dd) AND (cc==ee)))then\naa=ww\nend if\nend\n");
 }
 
 /*
@@ -266,8 +266,30 @@ BOOST_AUTO_TEST_CASE( test_foreach_statement )
 */
 BOOST_AUTO_TEST_CASE( test_show_statement )
 {
-     system("../lexer \"begin\" \"show(10)\"     \"end\"");
-     BOOST_TEST( getFileContent().c_str() == "begin\nshow (10)\nend\n");
+     system("../lexer \"begin\" \"show(ab)\"     \"end\"");
+     BOOST_TEST( getFileContent().c_str() == "begin\nshow (ab)\nend\n");
+}
+
+/*
+==============================================================================
+----------------------------List filter expression----------------------------
+==============================================================================
+*/
+BOOST_AUTO_TEST_CASE( test_filter_expression )
+{
+     system("../lexer \"begin\" \"MyList = MyList[>100]\" \"end\"");
+     BOOST_TEST( getFileContent().c_str() == "begin\nMyList=MyList[>100]\nend\n");
+}
+
+/*
+==============================================================================
+----------------------------Sub List expression-------------------------------
+==============================================================================
+*/
+BOOST_AUTO_TEST_CASE( test_sublist_expression )
+{
+     system("../lexer \"begin\" \"MyList = MyList[2,5]\" \"end\"");
+     BOOST_TEST( getFileContent().c_str() == "begin\nMyList=MyList[2,5]\nend\n");
 }
 
 BOOST_AUTO_TEST_SUITE_END();
