@@ -1,64 +1,13 @@
 begin
-string aaaa = {'siema1', 'siema2'}
-string bbbb = {'siema3', 'siema4'}
-aaaa = bbbb  + aaaa
-show(aaaa)
 
-number ccc = {1,2,3}
-number ddd = {4,5,6}
-ccc = ccc * ddd
-show(ccc)
+number MyList1 = {1,2,3}
+number MyList2 = {1,2,3}
+number MyList3 = {1,2}
 
-var number a = 10
-var number b = 11
-var number c = a  - b * 2
-show(c)
+if MyList1 == MyList2 and MyList2 != MyList3 then
+MyList1 = MyList1 + MyList2
+end if   	
 
-number w = {1,2,3,5.6,7,8,9}
-number ww = w[2,4]
-show(ww)
-
-number tt = {1,2,3,5,5.6,7,8,9,10}
-number tt1 = {1}
-number tt2 = {2}
-number tt3 = {3}
-number tt4 = {4}
-number tt5 = {5}
-
-show(tt)
-
-number t2 = tt[>5]
-show(t2)
-number t3 = tt[<5]
-show(t3)
-number t4 = tt[>=5]
-show(t4)
-number t5 = tt[<=5]
-show(t5)
-number t6 = tt[==5]
-show(t6)
-number t7 = tt[!=5]
-show(t7)
-
-var number a3 = 8
-
-show(aaaa)
-show(aaaa)
-
-foreach x in w loop
-	foreach y in w loop
-	a3 = 1+ a3
-	show(a3)
-	end loop
-end loop
-
-var number n1 = 4
-number n2 = {1,2,3,4,5} 
-string n3 = {'sad','asdw','qe','23d'}
-var number n4 = 3
-
-if n2 < n1 or n2==n1 then
-show(aaaa)
-end if
+show (MyList1)
 
 end

@@ -21,6 +21,7 @@ namespace Errors{
                 static void upperBoundIncorrect(int value);
                 static void lowerBoundGreaterThanUpperBound();
                 static void incorrectLeftExpressionComparison();
+                static void functionNotExist(string variable_name);
     };
 }
 

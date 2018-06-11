@@ -1,3 +1,4 @@
 begin
-MyList=MyList[2,5]
+#jakisrandomowycoment
+
 end

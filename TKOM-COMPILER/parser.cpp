@@ -65,6 +65,11 @@ void printDouble(double value, string variable_name){
     std::cout<<variable_name<<": "<<value<<std::endl;
 }
 
+void printFunArgumentsList(vector<pair<string,string> > vec){
+    for( int i = 0; i < vec.size(); ++i)
+    std::cout <<" arg " << vec[i].first<<" "<< vec[i].second;
+}
+
 bool existDoubleVarialbe(string variable_name, map<string, double> var_map){
     map<string,double>::const_iterator it_number = var_map.find(variable_name);
     return it_number != var_map.end();
@@ -75,5 +80,10 @@ bool existDoubleListVarialbe(string variable_name, map<string, vector <double> >
 }
 bool existStringListVarialbe(string variable_name, map<string, vector <string> > var_map){
     map<string,vector<string> >::const_iterator it_string_list = var_map.find(variable_name);
+    return it_string_list != var_map.end();
+}
+
+bool existFunctionVarialbe(string variable_name, map<string, function_node > var_map){
+    map<string,function_node >::const_iterator it_string_list = var_map.find(variable_name);
     return it_string_list != var_map.end();
 }

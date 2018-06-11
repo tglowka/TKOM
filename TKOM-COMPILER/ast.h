@@ -10,21 +10,6 @@
 #include <map>
 using namespace std;
 
-class statement{
-public:
-    virtual void evaluate() = 0;
-    virtual void print() {}
-};
-
-class pgm {
- protected:
-  list<statement*> *pgm_list_statements;
- public:
-  pgm(list<statement*> *pgm_list_statements): pgm_list_statements(pgm_list_statements){}
-  void evaluate();
-  void print();
-};
-
 class expression{
 
 protected:
@@ -45,11 +30,76 @@ public:
     virtual bool evaluate_bool()= 0;
 };
 
+class statement{
+public:
+    virtual void evaluate() = 0;
+    virtual void print() {}
+};
+
+class function_node{
+    public:
+        string function_name;
+        string return_type;
+        vector<pair<string,string> > *function_arguments;
+        list<statement*> *function_list_statements;
+        function_node(list<statement*> *function_list_statements, vector<pair<string,string> > *function_arguments, string return_type, string function_name): 
+            function_list_statements(function_list_statements),
+            function_arguments(function_arguments),
+            return_type(return_type),
+            function_name(function_name){}
+        function_node(){}
+        void evaluate();
+        void print();
+};
+
+class return_statement:public statement{
+protected:
+    expression* node;
+public:
+    return_statement(expression* node):node(node){}
+    void evaluate(){}
+    void print();
+};
+
+class comment_node:public statement{
+protected:
+    string comment_content;
+public:
+    comment_node(string *comment_content):comment_content(*comment_content){}
+    void evaluate(){}
+    void print();
+};
+
+class pgm {
+ protected:
+  list<function_node*> *function_list;
+  list<statement*> *pgm_list_statements;
+ public:
+  pgm(list<statement*> *pgm_list_statements, list<function_node*> *function_list):
+     pgm_list_statements(pgm_list_statements),
+     function_list(function_list){}
+  void evaluate();
+  void print();
+};
+
+
+class function_execution:public statement{
+protected:
+    string function_name;
+    vector<pair<string,string> >* function_arguments; 
+public:
+    function_execution(string *function_name, vector<pair<string,string> > * function_arguments):
+        function_name(*function_name),
+        function_arguments(function_arguments){}
+    void evaluate();
+    void print();
+};
+
 class id_node :public expression{
 protected:
     string variable_name;
 public:
-    id_node(string* variable_name);
+    id_node(string* variable_name):variable_name(*variable_name){}
     void print();
     double evaluate_number();
     vector<string> evaluate_string_list();
@@ -97,7 +147,7 @@ protected:
     string left_name;
     string right_name;
 public:
-    operator_node(expression *l, expression *r);
+    operator_node(expression *l, expression *r): left(l), right(r){}
     operator_node(string l_name, string r_name): left_name(l_name), right_name(r_name){}
 };
 
@@ -329,5 +379,8 @@ public:
     void evaluate();
     void print();
 };
+
+
+
 
 #endif

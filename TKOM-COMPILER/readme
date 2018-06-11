@@ -1,10 +1,13 @@
 1. Do zbudowania projektu nalezy uzyc kolejno polecen:
     -make clean
     -make
-2. Zostanie utworzony plik wynikowy uruchamiany w nastepujacy sposob:
-    ./lexer test    - to wywoanie spowoduje analize przykladowego programu
 
-3.Testowanie:
-    W ramach tesowania kolejnosci odpalanych akcji semantycznych zostanie utworzony plik output.txt,
-    ktory powinien logicznie pokrywac sie z kodem wprowadzanego programu. Pokazuje on po kolei jakie akcje
-    zostaly wykonywane w kolejnych ruchach;
+2. Zostanie utworzony plik wynikowy " uruchamiany w nastepujacy sposob:
+    ./lexer test.txt    - to wywoanie spowoduje analize przykladowego programu
+
+3. Program „wypluje” plik „output.txt”, w którym to zostanie umieszczone wykonanie programu
+
+4.Testowanie:
+	-wejsc do katalogu Test
+	-odpalic "make clean"
+	-odpalic "make

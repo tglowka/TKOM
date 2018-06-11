@@ -1,8 +1,12 @@
 #include "ast.h"
+#include "parser.h"
 
 
 void pgm::print() {
  std::cout<<"begin"<<std::endl;
+  for (auto v : *function_list){
+        v->print();
+ }
  for (auto v : *pgm_list_statements){
         v->print();
  }
@@ -157,6 +161,34 @@ void show_statement::print(){
     std::cout<<"show (";
     std::cout<<variable_name;
     std::cout<<")";
+}
+
+void return_statement::print(){
+    std::cout<<"return ";
+    node->print();
+}
+
+void function_execution::print(){
+    std::cout<<function_name<<"(";
+    printFunArgumentsList(*function_arguments);
+    std::cout<<")";
+}
+
+void function_node::print(){
+    std::cout<<"function "<<return_type<<" "<<function_name;
+    std::cout<<"(";
+    printFunArgumentsList(*function_arguments);
+    std::cout<<" )"<<std::endl;
+    std::cout<<"begin"<<std::endl;
+    for (auto v : *function_list_statements){
+        v->print();
+        std::cout<<std::endl;
+    }
+    std::cout<<"end"<<std::endl;
+}
+
+void comment_node::print(){
+    std::cout<<comment_content<<std::endl;
 }
 
 /*

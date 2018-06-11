@@ -292,4 +292,26 @@ BOOST_AUTO_TEST_CASE( test_sublist_expression )
      BOOST_TEST( getFileContent().c_str() == "begin\nMyList=MyList[2,5]\nend\n");
 }
 
+/*
+==============================================================================
+----------------------------Function execution--------------------------------
+==============================================================================
+*/
+BOOST_AUTO_TEST_CASE( test_function )
+{
+     system("../lexer \"begin\" \"function number fun1( arg var number n4 arg number n5 arg string n6 )\"  \"begin\"  \"n1=10\" \"n2={1,2,3}\" \"n3={\'sd\'}\"  \"end function\"   \"end\"");
+     BOOST_TEST( getFileContent().c_str() == "begin\nfunction number fun1( arg varnumber n4 arg number n5 arg string n6 )\nbegin\nn1=10\nn2=1 2 3 \nn3=\"sd\" \nend\n\nend\n");
+}
+
+/*
+==============================================================================
+----------------------------Commenta------------------------------------------
+==============================================================================
+*/
+BOOST_AUTO_TEST_CASE( test_comments )
+{
+     system("../lexer \"begin\" \"#jakisrandomowycoment\"   \"end\"");
+     BOOST_TEST( getFileContent().c_str() == "begin\n#jakisrandomowycoment\n\nend\n");
+}
+
 BOOST_AUTO_TEST_SUITE_END();

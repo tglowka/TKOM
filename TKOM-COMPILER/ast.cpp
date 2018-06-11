@@ -7,21 +7,7 @@ vector<string> variables;
 map <string ,double > var_double;
 map <string ,vector<double> > var_list_double;
 map <string ,vector<string> > var_list_string;
-/*
-==========================================================
-=======================CONSTRUCTORS=======================
-==========================================================
-*/
-
-id_node::id_node(string *variable_name){
-     this->variable_name = *variable_name;
- }
-
-operator_node::operator_node(expression *l, expression *r){
-    left = l;
-    right = r;
-}
-
+map <string ,function_node > var_list_function;
 
 /*
 ==========================================================
@@ -517,6 +503,14 @@ bool greater_equal_node::evaluate_bool(){
     }
 }
 
+void function_execution::evaluate(){
+    if(existFunctionVarialbe(function_name, var_list_function)){
+        var_list_function[function_name].evaluate();
+    }else{
+        Errors::ErrorHandling::functionNotExist(function_name);
+    }
+}
+
 void show_statement::evaluate(){
     if(existDoubleVarialbe(variable_name, var_double)){
         printDouble(var_double[variable_name], variable_name);
@@ -590,12 +584,21 @@ void if_statement::evaluate(){
     }
 }
 
+void function_node::evaluate(){
+    for (auto v : *function_list_statements){
+        v->evaluate();
+    }
+}
+
 
 void pgm::evaluate() {
- std::cout<<"begin"<<std::endl;
- for (auto v : *pgm_list_statements){
-        v->evaluate();
- }
- std::cout<<std::endl;
- std::cout<<"end"<<std::endl;
+     for (auto v : *function_list){
+         var_list_function[v->function_name] = *v;
+     }
+     std::cout<<"begin"<<std::endl;
+     for (auto v : *pgm_list_statements){
+            v->evaluate();
+     }
+     std::cout<<std::endl;
+     std::cout<<"end"<<std::endl;
 }

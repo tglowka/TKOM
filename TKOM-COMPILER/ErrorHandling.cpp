@@ -2,7 +2,6 @@
 
 int currentLine = 1;
 int currentColumn = 1;
-int aaa = 0;
 
 void  Errors::ErrorHandling::divZeroError(){
     cout<<"Error: division by zero !!!"<<endl;
@@ -39,6 +38,11 @@ void Errors::ErrorHandling::incorrectLeftExpressionComparison(){
     exit(1);
 }
 
+void Errors::ErrorHandling::functionNotExist(string variable_name){
+    cout<<"Function: "<<variable_name<<", does not exists"<<endl;
+    exit(1);
+}
+
 void  Errors::ErrorHandling::updateColumn(char* s){
     string tmp(s);
     currentColumn += tmp.length();
@@ -55,3 +59,4 @@ void  Errors::ErrorHandling::addColumn(){
 void  Errors::ErrorHandling::resetColumn(){
     currentColumn = 0;
 }
+
